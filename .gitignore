@@ -3,3 +3,6 @@ target/
 build/
 *.iml
 glowroot/
+
+
+.DS_Store

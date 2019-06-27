@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - glowroot_net
+
+  glowroot:
+    image: glowroot/glowroot-central
+    ports:
+      - "8181:8181/tcp"
+      - "4000:4000/tcp"
+    environment:
+      CASSANDRA_CONTACT_POINTS: cassandra
+    networks:
+      - glowroot_net
+
+  cassandra:
+    image: cassandra
+    ports:
+      - "7000:7000/tcp"
+      - "9160:9160/tcp"
+      - "9042:9042/tcp"
+    networks:
+      - glowroot_net
+
+networks:
+  glowroot_net:
