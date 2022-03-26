@@ -11,14 +11,19 @@ public class Receiver {
     CustomerRepository customerRepository;
 
     @RabbitListener(queues = Application.queueName)
-    public void receiver(String message) throws InterruptedException {
+    public void receiver(String message) throws Throwable {
 
         System.out.println("Receiving " + message);
 
         customerRepository.findAll();
 
+        if(Math.random() > .8d) {
+            long pauseTime = (long)(Math.random() * 5000d);
+            System.out.println("pausing " + pauseTime);
+            Thread.sleep(pauseTime);
+        }
         if(Math.random() > .9d) {
-            Thread.sleep(5000L);
+            throw new Throwable();
         }
     }
 }
