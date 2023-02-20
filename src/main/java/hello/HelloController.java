@@ -3,6 +3,8 @@ package hello;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -12,10 +14,10 @@ public class HelloController {
     @Autowired
     CustomerRepository customerRepository;
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> getHello() throws Throwable {
-        System.out.println("rest endpoint called");
-        List<Customer> user = customerRepository.findByLastName("john");
+    @GetMapping("/hello/{name}")
+    public ResponseEntity<String> getHello(@PathVariable("name") String name) throws Throwable {
+        System.out.println("rest endpoint called name="+name);
+        List<Customer> user = customerRepository.findByLastName(name);
 
         if(Math.random() > .8d) {
             long pauseTime = (long)(Math.random() * 5000d);
@@ -26,6 +28,6 @@ public class HelloController {
             throw new Throwable();
         }
 
-        return ResponseEntity.ok("Hello");
+        return ResponseEntity.ok("Hello "+name);
     }
 }
