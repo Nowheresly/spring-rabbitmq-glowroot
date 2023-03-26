@@ -29,3 +29,6 @@ java  \
 
 This application has cron that will send messages into rabbitmq every 2 seconds.
 The message is read, a database access is performed and we randomly wait for 5 seconds to simulate slow response times.
+
+
+keytool -genseckey -alias myKey -keypass changeit -storepass changeit -keyalg AES -keysize 256 -keystore defaultStore.keystore -storetype  JCEKS

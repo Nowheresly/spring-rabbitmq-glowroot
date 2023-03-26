@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - glowroot_net
+
+  glowroot1:
+#    image: glowroot/glowroot-central
+    image: glowroot:0.14.0-beta3
+    ports:
+      - "8181:8181/tcp"
+      - "4000:4000/tcp"
+    environment:
+      CASSANDRA_CONTACT_POINTS: cassandra
+      JGROUPS_CONFIGURATION_FILE: jgroups-tcp.xml
+      JGROUPS_LOCAL_ADDRESS: glowroot1
+      JGROUPS_LOCAL_PORT: 7800
+      JGROUPS_INITIAL_NODES: glowroot1:7800,glowroot2:7800
+      JGROUPS_SYM_ENCRYPT_KEYSTORE_NAME: '/jks/defaultStore.keystore'
+      JGROUPS_SYM_ENCRYPT_KEYSTORE_PASSWORD: changeit
+      JGROUPS_SYM_ENCRYPT_KEY_ALIAS: myKey
+      JGROUPS_SYM_ENCRYPT_KEY_PASSWORD: changeit
+      GLOWROOT_OPTS: '--illegal-access=warn'
+    networks:
+      - glowroot_net
+    volumes:
+      - ./jks:/jks:ro
+
+  glowroot2:
+#    image: glowroot/glowroot-central
+    image: glowroot:0.14.0-beta3
+    ports:
+      - "8182:8181/tcp"
+      - "4001:4000/tcp"
+    environment:
+      CASSANDRA_CONTACT_POINTS: cassandra
+      JGROUPS_CONFIGURATION_FILE: jgroups-tcp.xml
+      JGROUPS_LOCAL_ADDRESS: glowroot2
+      JGROUPS_LOCAL_PORT: 7800
+      JGROUPS_INITIAL_NODES: glowroot1:7800,glowroot2:7800
+      JGROUPS_SYM_ENCRYPT_KEYSTORE_NAME: '/jks/defaultStore.keystore'
+      JGROUPS_SYM_ENCRYPT_KEYSTORE_PASSWORD: changeit
+      JGROUPS_SYM_ENCRYPT_KEY_ALIAS: myKey
+      JGROUPS_SYM_ENCRYPT_KEY_PASSWORD: changeit
+      GLOWROOT_OPTS: '--illegal-access=warn'
+    networks:
+      - glowroot_net
+    volumes:
+      - ./jks:/jks:ro
+
+  cassandra:
+    image: cassandra
+    ports:
+      - "7000:7000/tcp"
+      - "9160:9160/tcp"
+      - "9042:9042/tcp"
+    networks:
+      - glowroot_net
+
+networks:
+  glowroot_net:
