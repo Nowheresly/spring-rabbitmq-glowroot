@@ -11,8 +11,7 @@ services:
       - glowroot_net
 
   glowroot1:
-#    image: glowroot/glowroot-central
-    image: glowroot:0.14.0-beta3
+    image: glowroot/glowroot-central:0.14.0
     ports:
       - "8181:8181/tcp"
       - "4000:4000/tcp"
@@ -34,7 +33,7 @@ services:
 
   glowroot2:
 #    image: glowroot/glowroot-central
-    image: glowroot:0.14.0-beta3
+    image: glowroot:0.14.beta4
     ports:
       - "8182:8181/tcp"
       - "4001:4000/tcp"
