@@ -1,4 +1,4 @@
-package hello;
+package hello.kafka;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Scheduled;

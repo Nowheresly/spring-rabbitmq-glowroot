@@ -1,17 +1,17 @@
-package hello;
+package hello.kafka;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Receiver {
-
     @Autowired
     CustomerRepository customerRepository;
 
-    @RabbitListener(queues = Application.queueName)
-    public void receiver(String message) throws Throwable {
+    @KafkaListener(topics = "someTopic")
+    public void execute(final GenericMessage<String> message) throws Throwable {
 
         System.out.println("Receiving " + message);
 

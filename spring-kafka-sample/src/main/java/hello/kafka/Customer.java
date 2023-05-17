@@ -1,4 +1,4 @@
-package hello;
+package hello.kafka;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
