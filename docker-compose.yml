@@ -11,7 +11,7 @@ services:
       - glowroot_net
 
   glowroot:
-    image: glowroot/glowroot-central:0.14.0
+    image: glowroot/glowroot-central:0.14.1
     ports:
       - "8181:8181/tcp"
       - "4000:4000/tcp"
@@ -21,7 +21,7 @@ services:
       - glowroot_net
 
   cassandra:
-    image: cassandra
+    image: cassandra:4.1.4
     ports:
       - "7000:7000/tcp"
       - "9160:9160/tcp"
